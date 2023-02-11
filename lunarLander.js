@@ -82,8 +82,6 @@ function moon() {
   pop();
 }
 
-// The following 21 lines of code was adapted from https://www.youtube.com/watch?time_continue=508&v=kISBKRn-6_I&embeds_euri=https%3A%2F%2Fpixelkind.github.io%2F&feature=emb_title Accessed: 2023-02-11
-
 let starX = [];
 let starY = [];
 let starAlpha = [];
@@ -97,6 +95,8 @@ let rocketSpeedY = 0;
 
 let landingPadX = 300;
 let landingPadY = 300;
+
+// The following 21 lines of code was adapted from https://www.youtube.com/watch?time_continue=508&v=kISBKRn-6_I&embeds_euri=https%3A%2F%2Fpixelkind.github.io%2F&feature=emb_title Accessed: 2023-02-11
 
 for (let i = 0; i < 250; i++) {
   const x = Math.floor(Math.random() * width);
