@@ -31,21 +31,20 @@ function moon() {
   translate(moonX - 200, moonY + 140);
   rotate(170);
 
-  fill(172, 172, 165);
-  ellipse(0, 0, 100, 70);
-
   fill(200, 200, 193);
+  ellipse(0, 0, 100, 70);
+  fill(172, 172, 165);
+
   ellipse(0, 0, 70, 50);
   pop();
 
   push();
   translate(moonX - 20, moonY + 90);
   rotate(175);
-
-  fill(172, 172, 165);
+  fill(200, 200, 193);
   ellipse(0, 0, 90, 60);
 
-  fill(200, 200, 193);
+  fill(172, 172, 165);
   ellipse(0, 0, 60, 40);
   pop();
 
@@ -53,10 +52,10 @@ function moon() {
   translate(moonX + 250, moonY + 140);
   rotate(10);
 
-  fill(172, 172, 165);
+  fill(200, 200, 193);
   ellipse(0, 0, 130, 100);
 
-  fill(200, 200, 193);
+  fill(172, 172, 165);
   ellipse(0, 0, 100, 70);
   pop();
 
@@ -64,10 +63,10 @@ function moon() {
   translate(moonX - 70, moonY + 30);
   rotate(175);
 
-  fill(172, 172, 165);
+  fill(200, 200, 193);
   ellipse(0, 0, 70, 30);
 
-  fill(200, 200, 193);
+  fill(172, 172, 165);
   ellipse(0, 0, 40, 10);
   pop();
 
@@ -75,10 +74,10 @@ function moon() {
   translate(moonX + 100, moonY + 50);
   rotate(9);
 
-  fill(172, 172, 165);
+  fill(200, 200, 193);
   ellipse(0, 0, 50, 20);
 
-  fill(200, 200, 193);
+  fill(172, 172, 165);
   ellipse(0, 0, 25, 10);
   pop();
 }
@@ -144,7 +143,7 @@ function draw() {
 
   moon();
   drawSpaceShip();
-  drawLandingPad();
+  drawLandingPad((landingPadX = 200), (landingPadY = 300));
 }
 
 // #endregion
@@ -300,19 +299,45 @@ function drawSpaceShip() {
 // #region Landing pad
 
 function drawLandingPad() {
-  fill(230, 230, 230);
-  stroke(130, 130, 130);
-  strokeWeight(5);
-  ellipse(landingPadX, landingPadY + 200, 250, 70);
-
   noStroke();
+
   fill(98, 154, 198);
   ellipse(landingPadX, landingPadY + 200, 200, 50);
+  ellipse(landingPadX, landingPadY + 210, 200, 50);
+
+  stroke(98, 154, 198);
+  line(
+    landingPadX - 100,
+    landingPadY + 250,
+    landingPadX - 98,
+    landingPadY + 200
+  );
+  line(
+    landingPadX + 100,
+    landingPadY + 250,
+    landingPadX + 98,
+    landingPadY + 200
+  );
 
   push();
-  translate(landingPadX - 100, landingPadY + 220);
-  rotate();
-  arc(0, 0, 50, 50, 0, QUARTER_PI, PIE);
+  fill(61, 96, 124);
+  ellipse(landingPadX, landingPadY + 200, 150, 30);
+  pop();
+
+  push();
+  translate(landingPadX - 100, landingPadY + 250);
+  angleMode(DEGREES);
+  rotate(275);
+  angleMode(RADIANS);
+  arc(0, 0, 100, 100, 0, QUARTER_PI, PIE);
+  pop();
+
+  push();
+  translate(landingPadX + 100, landingPadY + 250);
+  angleMode(DEGREES);
+  rotate(220);
+  angleMode(RADIANS);
+  arc(0, 0, 100, 100, 0, QUARTER_PI, PIE);
   pop();
 }
 
