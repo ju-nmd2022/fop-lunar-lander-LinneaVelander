@@ -96,6 +96,8 @@ let rocketSpeedY = 0;
 let landingPadX = 300;
 let landingPadY = 300;
 
+let screen = "Start";
+
 // The following 21 lines of code was adapted from https://www.youtube.com/watch?time_continue=508&v=kISBKRn-6_I&embeds_euri=https%3A%2F%2Fpixelkind.github.io%2F&feature=emb_title Accessed: 2023-02-11
 
 for (let i = 0; i < 250; i++) {
@@ -142,8 +144,28 @@ function draw() {
   rocketY = rocketY + rocketSpeedY;
 
   moon();
-  drawSpaceShip();
-  drawLandingPad();
+
+  if (
+    mouseIsPressed &&
+    mouseX > 200 &&
+    mouseX < 200 + 200 &&
+    mouseY > 450 &&
+    mouseY < 450 + 50 &&
+    screen == "Start"
+  ) {
+    screen = "Game";
+  }
+
+  if (screen == "Start") {
+    startButton(200, 450, 200, 50);
+    howToPlay(100, 100, 400, 100);
+  } else if (screen == "Game") {
+    drawSpaceShip();
+    drawLandingPad();
+  }
+
+  // drawSpaceShip();
+  // drawLandingPad();
 }
 
 // #endregion
@@ -339,6 +361,37 @@ function drawLandingPad() {
   angleMode(RADIANS);
   arc(0, 0, 100, 100, 0, QUARTER_PI, PIE);
   pop();
+}
+
+// #endregion
+
+// #region Start screen
+
+function startButton(x, y, width, height) {
+  noStroke();
+  fill(61, 96, 124);
+  rect(x, y, width, height);
+
+  fill(169, 209, 239);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text("Start game", x + width / 2, y + height / 2);
+}
+
+function howToPlay(x, y, width, height) {
+  noStroke();
+  fill(255, 255, 255);
+  rect(x, y, width, height);
+
+  fill(0, 0, 0);
+  textAlign(LEFT);
+  text(
+    "You are going to land a spaceship on the moon without crashing, you steer the spaceship with the arrow keys. Good luck!",
+    110,
+    100,
+    400,
+    100
+  );
 }
 
 // #endregion
