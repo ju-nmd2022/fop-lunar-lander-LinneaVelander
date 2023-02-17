@@ -143,7 +143,7 @@ function draw() {
 
   moon();
   drawSpaceShip();
-  drawLandingPad((landingPadX = 200), (landingPadY = 300));
+  drawLandingPad();
 }
 
 // #endregion
