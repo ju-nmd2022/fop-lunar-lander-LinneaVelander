@@ -86,15 +86,15 @@ let starX = [];
 let starY = [];
 let starAlpha = [];
 
-let rocketX = 300;
-let rocketY = 300;
+let rocketX = 0;
+let rocketY = -100;
 let rocketPitch = 0;
 
 let rocketSpeedX = 0;
 let rocketSpeedY = 0;
 
 let landingPadX = 300;
-let landingPadY = 300;
+let landingPadY = 600;
 
 let screen = "Start";
 
@@ -113,6 +113,7 @@ for (let i = 0; i < 250; i++) {
 function draw() {
   background(74, 74, 74);
   noStroke();
+  moon();
 
   for (let index in starX) {
     fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
@@ -143,8 +144,6 @@ function draw() {
   rocketX = rocketX + rocketSpeedX;
   rocketY = rocketY + rocketSpeedY;
 
-  moon();
-
   if (
     mouseIsPressed &&
     mouseX > 200 &&
@@ -160,8 +159,8 @@ function draw() {
     startButton(200, 450, 200, 50);
     howToPlay(100, 100, 400, 100);
   } else if (screen == "Game") {
-    drawSpaceShip();
-    drawLandingPad();
+    drawLandingPad(landingPadX, landingPadY, 0.6);
+    drawSpaceShip(rocketX, rocketY, 0.5);
   }
 
   // drawSpaceShip();
@@ -170,10 +169,64 @@ function draw() {
 
 // #endregion
 
+// #region Landing pad
+
+function drawLandingPad(landingPadX, landingPadY, s) {
+  push();
+  scale(s);
+  noStroke();
+
+  fill(98, 154, 198);
+  ellipse(landingPadX, landingPadY + 200, 200, 50);
+  ellipse(landingPadX, landingPadY + 210, 200, 50);
+
+  stroke(98, 154, 198);
+  line(
+    landingPadX - 100,
+    landingPadY + 250,
+    landingPadX - 98,
+    landingPadY + 200
+  );
+  line(
+    landingPadX + 100,
+    landingPadY + 250,
+    landingPadX + 98,
+    landingPadY + 200
+  );
+
+  push();
+  fill(61, 96, 124);
+  ellipse(landingPadX, landingPadY + 200, 150, 30);
+  pop();
+
+  push();
+  translate(landingPadX - 100, landingPadY + 250);
+  angleMode(DEGREES);
+  rotate(275);
+  angleMode(RADIANS);
+  arc(0, 0, 100, 100, 0, QUARTER_PI, PIE);
+  pop();
+
+  push();
+  translate(landingPadX + 100, landingPadY + 250);
+  angleMode(DEGREES);
+  rotate(220);
+  angleMode(RADIANS);
+  arc(0, 0, 100, 100, 0, QUARTER_PI, PIE);
+  pop();
+
+  pop();
+}
+
+// #endregion
+
 // #region Spaceship
 
-function drawSpaceShip() {
+function drawSpaceShip(rocketX, rocketY, s) {
   // The blue body of the spaceship
+
+  push();
+  scale(s);
 
   fill(98, 154, 198);
   push();
@@ -314,52 +367,6 @@ function drawSpaceShip() {
     rocketX - 30,
     rocketY + 70
   );
-}
-
-// #endregion
-
-// #region Landing pad
-
-function drawLandingPad() {
-  noStroke();
-
-  fill(98, 154, 198);
-  ellipse(landingPadX, landingPadY + 200, 200, 50);
-  ellipse(landingPadX, landingPadY + 210, 200, 50);
-
-  stroke(98, 154, 198);
-  line(
-    landingPadX - 100,
-    landingPadY + 250,
-    landingPadX - 98,
-    landingPadY + 200
-  );
-  line(
-    landingPadX + 100,
-    landingPadY + 250,
-    landingPadX + 98,
-    landingPadY + 200
-  );
-
-  push();
-  fill(61, 96, 124);
-  ellipse(landingPadX, landingPadY + 200, 150, 30);
-  pop();
-
-  push();
-  translate(landingPadX - 100, landingPadY + 250);
-  angleMode(DEGREES);
-  rotate(275);
-  angleMode(RADIANS);
-  arc(0, 0, 100, 100, 0, QUARTER_PI, PIE);
-  pop();
-
-  push();
-  translate(landingPadX + 100, landingPadY + 250);
-  angleMode(DEGREES);
-  rotate(220);
-  angleMode(RADIANS);
-  arc(0, 0, 100, 100, 0, QUARTER_PI, PIE);
   pop();
 }
 
