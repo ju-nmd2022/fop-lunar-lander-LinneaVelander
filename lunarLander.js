@@ -150,21 +150,20 @@ function draw() {
     mouseX < 200 + 200 &&
     mouseY > 450 &&
     mouseY < 450 + 50 &&
-    screen == "Start"
+    screen === "Start"
   ) {
     screen = "Game";
   }
 
-  if (screen == "Start") {
+  if (screen === "Start") {
     startButton(200, 450, 200, 50);
     howToPlay(100, 100, 400, 100);
-  } else if (screen == "Game") {
+    drawStartSpaceship(900, -100, 0.6);
+    howToSteer(100, 210, 20, 20);
+  } else if (screen === "Game") {
     drawLandingPad(landingPadX, landingPadY, 0.6);
     drawSpaceShip(rocketX, rocketY, 0.5);
   }
-
-  // drawSpaceShip();
-  // drawLandingPad();
 }
 
 // #endregion
@@ -370,6 +369,91 @@ function drawSpaceShip(rocketX, rocketY, s) {
   pop();
 }
 
+function drawStartSpaceship(x, y, s) {
+  // The blue body of the spaceship
+
+  push();
+  scale(s);
+  rotate(30);
+
+  fill(98, 154, 198);
+  push();
+  translate(x, y);
+  angleMode(RADIANS);
+  rotate(HALF_PI);
+
+  beginShape();
+  arc(0, 0, 200, 65, 0, PI, PIE);
+  rotate(PI);
+  arc(0, 0, 200, 65, 0, PI, PIE);
+  endShape();
+  pop();
+
+  push();
+  fill(160, 160, 160);
+  ellipse(x, y + 100, 45, 15);
+  pop();
+
+  // Base of spaceship
+  triangle(x - 30, y + 100, x, y + 30, x + 30, y + 100);
+
+  // Arms of spaceship
+  triangle(x - 50, y + 70, x - 50, y + 110, x - 30, y + 70);
+  triangle(x + 50, y + 70, x + 50, y + 110, x + 30, y + 70);
+
+  // The window of the spaceship
+  stroke(32, 19, 156);
+  strokeWeight(4);
+  fill(177, 205, 227);
+  ellipse(x, y - 40, 40);
+
+  //The shadows on the window
+  noFill();
+  stroke(255, 255, 255, 50);
+  strokeWeight(4);
+  curve(x - 70, y - 100, x + 5, y - 55, x + 10, y - 30, x, y - 30);
+
+  // The arms on the ship
+  stroke(98, 154, 198);
+  strokeWeight(1);
+  fill(98, 154, 198);
+
+  push();
+  translate(x - 30, y + 50);
+  rotate((2 * PI) / 3);
+  ellipse(0, 0, 70, 21);
+  pop();
+
+  push();
+  translate(x + 30, y + 50);
+  rotate((2 * PI) / 6);
+  ellipse(0, 0, 70, 21);
+  pop();
+
+  // The dark blue top of the spaceship
+  fill(32, 19, 156);
+  stroke(32, 19, 156);
+  strokeWeight(2);
+
+  beginShape();
+  line(x - 22, y - 70, x + 22, y - 70);
+  vertex(x - 23, y - 70);
+  bezierVertex(x, y - 120, x, y - 120, x + 23, y - 70);
+  endShape();
+
+  // The shadows on the spaceship
+  noFill();
+  stroke(255, 255, 255, 50);
+  strokeWeight(5);
+  curve(x - 50, y - 60, x + 20, y - 60, x + 20, y + 60, x - 10, y + 60);
+  curve(x, y - 95, x + 3, y - 100, x + 15, y - 75, x, y - 75);
+
+  stroke(0, 0, 0, 10);
+  strokeWeight(3);
+  curve(x - 30, y + 30, x - 30, y + 35, x - 28, y + 60, x - 30, y + 70);
+  pop();
+}
+
 // #endregion
 
 // #region Start screen
@@ -399,6 +483,14 @@ function howToPlay(x, y, width, height) {
     400,
     100
   );
+}
+
+function howToSteer(x, y, width, height) {
+  fill(255, 255, 255);
+  rect(x, y, width, height);
+  rect(x + 30, y + 30, width, height);
+  rect(x - 30, y + 30, width, height);
+  rect(x, y + 30, width, height);
 }
 
 // #endregion
