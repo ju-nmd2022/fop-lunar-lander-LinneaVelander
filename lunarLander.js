@@ -101,6 +101,9 @@ let landingPadY = 600;
 let screen = "Start";
 let gameIsActive = false;
 
+const rocketScale = 0.5;
+const landingScale = 0.6;
+
 // The following 8 lines of code was adapted from https://www.youtube.com/watch?time_continue=508&v=kISBKRn-6_I&embeds_euri=https%3A%2F%2Fpixelkind.github.io%2F&feature=emb_title Accessed: 2023-02-11
 
 for (let i = 0; i < 250; i++) {
@@ -151,6 +154,27 @@ function draw() {
     // console.log("x: " + rocketX + " y: " + rocketY);
   }
 
+  if (screen === "Start") {
+    startButton(200, 450, 200, 50);
+    howToPlay(100, 100, 400, 100);
+    drawStartSpaceship(900, -100, 0.6, 30);
+    howToSteer(100, 210, 20, 20);
+  } else if (screen === "Game") {
+    drawLandingPad(landingPadX, landingPadY, landingScale);
+    drawSpaceShip(rocketX, rocketY, rocketScale);
+  }
+
+  if (isSpaceshipOnLandingpad() && rocketSpeedY < 6) {
+    gameIsActive = false;
+    victory(150, 100, 300, 150);
+  } else if (isSpaceshipOnLandingpad() && rocketSpeedY > 6) {
+    gameIsActive = false;
+    gameOver(190, 100, 250, 100, "Oh no! Try to land slower!");
+  } else if (rocketY * rocketScale > 505) {
+    gameIsActive = false;
+    gameOver(190, 100, 250, 100, "Oh no! You crashed, try again!");
+  }
+
   if (
     mouseIsPressed &&
     mouseX > 200 &&
@@ -162,21 +186,7 @@ function draw() {
     screen = "Game";
     gameIsActive = true;
   }
-
-  if (screen === "Start") {
-    startButton(200, 450, 200, 50);
-    howToPlay(100, 100, 400, 100);
-    drawStartSpaceship(900, -100, 0.6);
-    howToSteer(100, 210, 20, 20);
-  } else if (screen === "Game") {
-    drawLandingPad(landingPadX, landingPadY, 0.6);
-    drawSpaceShip(rocketX, rocketY, 0.5);
-  }
-
-  if (rocketX > 120 && rocketX < 240 && rocketY > 465 && rocketY < 505) {
-    gameWon();
-  } else gameOver();
-  // gameOver(200, 100, 200, 100);
+  console.log(rocketSpeedY);
 }
 
 // #endregion
@@ -382,12 +392,12 @@ function drawSpaceShip(rocketX, rocketY, s) {
   pop();
 }
 
-function drawStartSpaceship(x, y, s) {
+function drawStartSpaceship(x, y, s, r) {
   // The blue body of the spaceship
 
   push();
   scale(s);
-  rotate(30);
+  rotate(r);
 
   fill(98, 154, 198);
   push();
@@ -520,24 +530,69 @@ function howToSteer(x, y, width, height) {
 
 // #endregion
 
-// #region Game won screen
-
-// #endregion
-
-// #region Game over screen
-function gameOver(x, y, width, height) {
+// #region Victory screen
+function victory(x, y, width, height) {
+  screen = "Victory";
   fill(255, 255, 255);
   rect(x, y, width, height);
 
   fill(61, 96, 124);
-  rect(x, y + 350, 200, 50);
+  rect(x, y + 300, width, height - 70);
+
+  textSize(40);
+  fill(255, 212, 95);
+  text("VICTORY", x, y - 35, width, height);
+
+  fill(0, 0, 0);
+  textSize(20);
+  text(
+    "Congratulations, you succesfully landed the spaceship on the moon!!",
+    x,
+    y + 25,
+    width,
+    height
+  );
+
+  fill(169, 209, 239);
+  text(
+    "Want to play again? Press here!",
+    x + 50,
+    y + 300,
+    width - 100,
+    height - 70
+  );
+
+  drawStartSpaceship(150, 400, 0.7, -10);
+}
+
+// #endregion
+
+// #region Game over screen
+function gameOver(x, y, width, height, message) {
+  screen = "GameOver";
+  fill(255, 255, 255);
+  rect(x, y, width, height);
+
+  fill(61, 96, 124);
+  rect(x, y + 350, width, height - 40);
 
   fill(158, 50, 50);
   textAlign(CENTER, CENTER);
   textSize(20);
-  text("Oh no! You crashed, try again!", x, y, width, height);
+  text(message, x, y, width, height);
 
   fill(169, 209, 239);
-  text("Play again", x, y + 350, width, height / 2);
+  text("Press here to try again", x, y + 350, width, height - 40);
+
+  drawStartSpaceship(200, 450, 1.0, 10);
 }
 // #endregion
+
+function isSpaceshipOnLandingpad() {
+  return (
+    rocketX * rocketScale > 120 &&
+    rocketX * rocketScale < 240 &&
+    rocketY * rocketScale + 65 * rocketScale > 465 &&
+    rocketY * rocketScale + 65 * rocketScale < 505
+  );
+}
