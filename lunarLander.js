@@ -86,19 +86,22 @@ let starX = [];
 let starY = [];
 let starAlpha = [];
 
-let rocketX = 0;
-let rocketY = -100;
-let rocketPitch = 0;
+let rocketX = 300;
+let rocketY = 100;
 
 let rocketSpeedX = 0;
 let rocketSpeedY = 0;
+
+const gravity = 0.2;
+const acceleration = 0.5;
 
 let landingPadX = 300;
 let landingPadY = 600;
 
 let screen = "Start";
+let gameIsActive = false;
 
-// The following 21 lines of code was adapted from https://www.youtube.com/watch?time_continue=508&v=kISBKRn-6_I&embeds_euri=https%3A%2F%2Fpixelkind.github.io%2F&feature=emb_title Accessed: 2023-02-11
+// The following 8 lines of code was adapted from https://www.youtube.com/watch?time_continue=508&v=kISBKRn-6_I&embeds_euri=https%3A%2F%2Fpixelkind.github.io%2F&feature=emb_title Accessed: 2023-02-11
 
 for (let i = 0; i < 250; i++) {
   const x = Math.floor(Math.random() * width);
@@ -113,7 +116,8 @@ for (let i = 0; i < 250; i++) {
 function draw() {
   background(74, 74, 74);
   noStroke();
-  moon();
+
+  // The following 5 lines of code was adapted from https://www.youtube.com/watch?time_continue=508&v=kISBKRn-6_I&embeds_euri=https%3A%2F%2Fpixelkind.github.io%2F&feature=emb_title Accessed: 2023-02-11
 
   for (let index in starX) {
     fill(255, 255, 255, Math.abs(Math.sin(starAlpha[index])) * 255);
@@ -121,28 +125,31 @@ function draw() {
     starAlpha[index] = starAlpha[index] + 0.02;
   }
 
-  //Keyboard up
-  if (keyIsDown(38)) {
-    rocketSpeedY = rocketSpeedY - 1;
-  }
+  moon();
 
-  //Keyboard down
-  if (keyIsDown(40)) {
-    rocketSpeedY = rocketSpeedY + 1;
-  }
+  // Gameloop
+  if (gameIsActive) {
+    rocketSpeedY = rocketSpeedY + gravity;
 
-  //Keyboard left
-  if (keyIsDown(37)) {
-    rocketSpeedX = rocketSpeedX - 1;
-  }
+    //Keyboard up
+    if (keyIsDown(38)) {
+      rocketSpeedY = rocketSpeedY - acceleration;
+    }
 
-  //Keyboard right
-  if (keyIsDown(39)) {
-    rocketSpeedX = rocketSpeedX + 1;
-  }
+    //Keyboard left
+    if (keyIsDown(37)) {
+      rocketSpeedX = rocketSpeedX - acceleration;
+    }
 
-  rocketX = rocketX + rocketSpeedX;
-  rocketY = rocketY + rocketSpeedY;
+    //Keyboard right
+    if (keyIsDown(39)) {
+      rocketSpeedX = rocketSpeedX + acceleration;
+    }
+
+    rocketX = rocketX + rocketSpeedX;
+    rocketY = rocketY + rocketSpeedY;
+    // console.log("x: " + rocketX + " y: " + rocketY);
+  }
 
   if (
     mouseIsPressed &&
@@ -153,6 +160,7 @@ function draw() {
     screen === "Start"
   ) {
     screen = "Game";
+    gameIsActive = true;
   }
 
   if (screen === "Start") {
@@ -164,6 +172,11 @@ function draw() {
     drawLandingPad(landingPadX, landingPadY, 0.6);
     drawSpaceShip(rocketX, rocketY, 0.5);
   }
+
+  if (rocketX > 120 && rocketX < 240 && rocketY > 465 && rocketY < 505) {
+    gameWon();
+  } else gameOver();
+  // gameOver(200, 100, 200, 100);
 }
 
 // #endregion
@@ -478,19 +491,53 @@ function howToPlay(x, y, width, height) {
   textAlign(LEFT);
   text(
     "You are going to land a spaceship on the moon without crashing, you steer the spaceship with the arrow keys. Good luck!",
-    110,
-    100,
-    400,
-    100
+    x + 10,
+    y,
+    width,
+    height
   );
 }
 
 function howToSteer(x, y, width, height) {
+  angleMode(DEGREES);
   fill(255, 255, 255);
   rect(x, y, width, height);
   rect(x + 30, y + 30, width, height);
   rect(x - 30, y + 30, width, height);
-  rect(x, y + 30, width, height);
+
+  fill(0, 0, 0);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text("<", x - 30 + width / 2, y + 30 + height / 2);
+  text(">", x + 30 + width / 2, y + 30 + height / 2);
+
+  push();
+  translate(x + 21, y);
+  rotate(90);
+  text("<", 0 + width / 2, 0 + height / 2);
+  pop();
 }
 
+// #endregion
+
+// #region Game won screen
+
+// #endregion
+
+// #region Game over screen
+function gameOver(x, y, width, height) {
+  fill(255, 255, 255);
+  rect(x, y, width, height);
+
+  fill(61, 96, 124);
+  rect(x, y + 350, 200, 50);
+
+  fill(158, 50, 50);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text("Oh no! You crashed, try again!", x, y, width, height);
+
+  fill(169, 209, 239);
+  text("Play again", x, y + 350, width, height / 2);
+}
 // #endregion
