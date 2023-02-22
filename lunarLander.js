@@ -86,8 +86,11 @@ let starX = [];
 let starY = [];
 let starAlpha = [];
 
-let rocketX = 300;
-let rocketY = 100;
+const startRocketX = 1000;
+const startRocketY = -100;
+
+let rocketX = startRocketX;
+let rocketY = startRocketY;
 
 let rocketSpeedX = 0;
 let rocketSpeedY = 0;
@@ -154,6 +157,7 @@ function draw() {
     // console.log("x: " + rocketX + " y: " + rocketY);
   }
 
+  // To draw the different screens
   if (screen === "Start") {
     startButton(200, 450, 200, 50);
     howToPlay(100, 100, 400, 100);
@@ -164,17 +168,22 @@ function draw() {
     drawSpaceShip(rocketX, rocketY, rocketScale);
   }
 
+  // To know when landed if victory or game over
   if (isSpaceshipOnLandingpad() && rocketSpeedY < 6) {
     gameIsActive = false;
     victory(150, 100, 300, 150);
+    playAgainButton(150, 400, 300, 80);
   } else if (isSpaceshipOnLandingpad() && rocketSpeedY > 6) {
     gameIsActive = false;
-    gameOver(190, 100, 250, 100, "Oh no! Try to land slower!");
+    gameOver(190, 80, 250, 150, "Oh no! Try to land slower!");
+    tryAgainButton(200, 400, 250, 70);
   } else if (rocketY * rocketScale > 505) {
     gameIsActive = false;
-    gameOver(190, 100, 250, 100, "Oh no! You crashed, try again!");
+    gameOver(190, 80, 250, 150, "Oh no! You crashed, try again!");
+    tryAgainButton(200, 400, 250, 70);
   }
 
+  // Pressing on the different buttons in the game
   if (
     mouseIsPressed &&
     mouseX > 200 &&
@@ -186,7 +195,38 @@ function draw() {
     screen = "Game";
     gameIsActive = true;
   }
-  console.log(rocketSpeedY);
+
+  if (
+    mouseIsPressed &&
+    mouseX > 150 &&
+    mouseX < 100 + 300 &&
+    mouseY > 400 &&
+    mouseY < 400 + 80 &&
+    screen === "Victory"
+  ) {
+    rocketX = startRocketX;
+    rocketY = startRocketY;
+    rocketSpeedX = 0;
+    rocketSpeedY = 0;
+    screen = "Game";
+    gameIsActive = true;
+  }
+
+  if (
+    mouseIsPressed &&
+    mouseX > 200 &&
+    mouseX < 200 + 250 &&
+    mouseY > 400 &&
+    mouseY < 400 + 70 &&
+    screen === "GameOver"
+  ) {
+    rocketX = startRocketX;
+    rocketY = startRocketY;
+    rocketSpeedX = 0;
+    rocketSpeedY = 0;
+    screen = "Game";
+    gameIsActive = true;
+  }
 }
 
 // #endregion
@@ -536,9 +576,6 @@ function victory(x, y, width, height) {
   fill(255, 255, 255);
   rect(x, y, width, height);
 
-  fill(61, 96, 124);
-  rect(x, y + 300, width, height - 70);
-
   textSize(40);
   fill(255, 212, 95);
   text("VICTORY", x, y - 35, width, height);
@@ -553,16 +590,18 @@ function victory(x, y, width, height) {
     height
   );
 
-  fill(169, 209, 239);
-  text(
-    "Want to play again? Press here!",
-    x + 50,
-    y + 300,
-    width - 100,
-    height - 70
-  );
-
   drawStartSpaceship(150, 400, 0.7, -10);
+}
+
+// Play again after victory
+function playAgainButton(x, y, width, height) {
+  fill(61, 96, 124);
+  rect(x, y, width, height);
+
+  fill(169, 209, 239);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text("Want to play again? Press here!", x, y, width, height);
 }
 
 // #endregion
@@ -573,21 +612,30 @@ function gameOver(x, y, width, height, message) {
   fill(255, 255, 255);
   rect(x, y, width, height);
 
-  fill(61, 96, 124);
-  rect(x, y + 350, width, height - 40);
-
-  fill(158, 50, 50);
+  fill(255, 46, 46);
   textAlign(CENTER, CENTER);
   textSize(20);
-  text(message, x, y, width, height);
+  text(message, x, y + 15, width, height);
 
-  fill(169, 209, 239);
-  text("Press here to try again", x, y + 350, width, height - 40);
+  textSize(40);
+  text("GAME OVER", x + width / 2, y - 35 + height / 2);
 
   drawStartSpaceship(200, 450, 1.0, 10);
 }
+
+// Button to start the game again
+function tryAgainButton(x, y, width, height) {
+  fill(61, 96, 124);
+  rect(x, y, width, height);
+
+  fill(169, 209, 239);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text("Press here to try again", x, y, width, height);
+}
 // #endregion
 
+// The place of the landing pad
 function isSpaceshipOnLandingpad() {
   return (
     rocketX * rocketScale > 120 &&
