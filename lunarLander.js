@@ -1,6 +1,8 @@
 function setup() {
-  createCanvas(600, 600);
+  const canvas = createCanvas(600, 600);
   frameRate(30);
+
+  canvas.parent("canvas");
 }
 
 // #region Background
@@ -146,17 +148,22 @@ function draw() {
   if (gameIsActive) {
     rocketSpeedY = rocketSpeedY + gravity;
 
-    //Keyboard up
+    //Key up
     if (keyIsDown(38)) {
       rocketSpeedY = rocketSpeedY - acceleration;
     }
 
-    //Keyboard left
+    //Key down
+    if (keyIsDown(40)) {
+      rocketSpeedY = rocketSpeedY + acceleration;
+    }
+
+    //Key left
     if (keyIsDown(37)) {
       rocketSpeedX = rocketSpeedX - acceleration;
     }
 
-    //Keyboard right
+    //Key right
     if (keyIsDown(39)) {
       rocketSpeedX = rocketSpeedX + acceleration;
     }
