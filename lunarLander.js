@@ -193,9 +193,13 @@ function draw() {
     gameIsActive = false;
     gameOver(190, 80, 250, 150, "Oh no! Try to land slower!");
     tryAgainButton(200, 400, 250, 70);
-  } else if (hasSpaceshipCrashed() || isSpaceshipOutsideOfScreen()) {
+  } else if (hasSpaceshipCrashed()) {
     gameIsActive = false;
     gameOver(190, 80, 250, 150, "Oh no! You crashed, try again!");
+    tryAgainButton(200, 400, 250, 70);
+  } else if (isSpaceshipOutsideOfScreen()) {
+    gameIsActive = false;
+    gameOver(190, 80, 250, 150, "You have to stay inside of the screen!");
     tryAgainButton(200, 400, 250, 70);
   }
 
