@@ -1,3 +1,7 @@
+function setup() {
+  createCanvas(600, 600);
+}
+
 // #region Background
 
 function moon() {
@@ -110,8 +114,8 @@ const landingScale = 0.6;
 // The following 8 lines of code was adapted from https://www.youtube.com/watch?time_continue=508&v=kISBKRn-6_I&embeds_euri=https%3A%2F%2Fpixelkind.github.io%2F&feature=emb_title Accessed: 2023-02-11
 
 for (let i = 0; i < 250; i++) {
-  const x = Math.floor(Math.random() * width);
-  const y = Math.floor(Math.random() * height);
+  const x = Math.floor(Math.random() * 600);
+  const y = Math.floor(Math.random() * 600);
   const alpha = Math.random();
 
   starX.push(x);
