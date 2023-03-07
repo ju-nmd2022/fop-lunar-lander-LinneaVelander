@@ -93,7 +93,7 @@ let starX = [];
 let starY = [];
 let starAlpha = [];
 
-const startRocketX = 1000;
+const startRocketX = 1000; 
 const startRocketY = 0;
 
 let rocketX = startRocketX;
