@@ -1,5 +1,6 @@
 function setup() {
   createCanvas(600, 600);
+  frameRate(30);
 }
 
 // #region Background
@@ -136,6 +137,10 @@ function draw() {
   }
 
   moon();
+
+  //#endregion
+
+  //#region Gamescreen
 
   // Gameloop
   if (gameIsActive) {
