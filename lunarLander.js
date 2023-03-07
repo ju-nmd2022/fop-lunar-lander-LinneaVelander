@@ -2,7 +2,7 @@ function setup() {
   const canvas = createCanvas(600, 600);
   frameRate(30);
 
-  canvas.parent("canvas");
+  // canvas.parent("canvas");
 }
 
 // #region Background
@@ -94,7 +94,7 @@ let starY = [];
 let starAlpha = [];
 
 const startRocketX = 1000;
-const startRocketY = -100;
+const startRocketY = 0;
 
 let rocketX = startRocketX;
 let rocketY = startRocketY;
@@ -193,7 +193,7 @@ function draw() {
     gameIsActive = false;
     gameOver(190, 80, 250, 150, "Oh no! Try to land slower!");
     tryAgainButton(200, 400, 250, 70);
-  } else if (rocketY * rocketScale > 505) {
+  } else if (hasSpaceshipCrashed() || isSpaceshipOutsideOfScreen()) {
     gameIsActive = false;
     gameOver(190, 80, 250, 150, "Oh no! You crashed, try again!");
     tryAgainButton(200, 400, 250, 70);
@@ -316,6 +316,7 @@ function drawSpaceShip(rocketX, rocketY, s) {
   arc(0, 0, 200, 65, 0, PI, PIE);
   rotate(PI);
   arc(0, 0, 200, 65, 0, PI, PIE);
+  ellipse(0, 0, 80, 30);
   endShape();
   pop();
 
@@ -465,6 +466,7 @@ function drawStartSpaceship(x, y, s, r) {
   arc(0, 0, 200, 65, 0, PI, PIE);
   rotate(PI);
   arc(0, 0, 200, 65, 0, PI, PIE);
+  ellipse(0, 0, 80, 30);
   endShape();
   pop();
 
@@ -665,5 +667,22 @@ function isSpaceshipOnLandingpad() {
     rocketX * rocketScale < 240 &&
     rocketY * rocketScale + 65 * rocketScale > 465 &&
     rocketY * rocketScale + 65 * rocketScale < 505
+  );
+}
+
+function hasSpaceshipCrashed() {
+  return (
+    (rocketX * rocketScale > 265 &&
+      rocketX * rocketScale < 460 &&
+      rocketY * rocketScale + 65 > 465) ||
+    rocketY * rocketScale > 505
+  );
+}
+
+function isSpaceshipOutsideOfScreen() {
+  return (
+    rocketX * rocketScale < 0 ||
+    rocketX * rocketScale > 600 ||
+    rocketY * rocketScale < -50
   );
 }
