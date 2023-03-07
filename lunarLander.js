@@ -2,7 +2,7 @@ function setup() {
   const canvas = createCanvas(600, 600);
   frameRate(30);
 
-  // canvas.parent("canvas");
+  canvas.parent("canvas");
 }
 
 // #region Background
