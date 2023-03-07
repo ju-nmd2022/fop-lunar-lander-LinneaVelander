@@ -2,7 +2,7 @@ function setup() {
   const canvas = createCanvas(600, 600);
   frameRate(30);
 
-  canvas.parent("canvas");
+  // canvas.parent("canvas");
 }
 
 // #region Background
@@ -570,6 +570,7 @@ function howToSteer(x, y, width, height) {
   rect(x, y, width, height);
   rect(x + 30, y + 30, width, height);
   rect(x - 30, y + 30, width, height);
+  rect(x, y + 30, width, height);
 
   fill(0, 0, 0);
   textSize(20);
@@ -580,7 +581,13 @@ function howToSteer(x, y, width, height) {
   push();
   translate(x + 21, y);
   rotate(90);
-  text("<", 0 + width / 2, 0 + height / 2);
+  text("<", width / 2, height / 2);
+  pop();
+
+  push();
+  translate(x - 2, y + 50);
+  rotate(270);
+  text("<", width / 2, height / 2);
   pop();
 }
 
