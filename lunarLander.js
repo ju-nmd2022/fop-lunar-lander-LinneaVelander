@@ -1,9 +1,9 @@
-function setup() {
-  const canvas = createCanvas(600, 600);
-  frameRate(30);
+// function setup() {
+//   const canvas = createCanvas(600, 600);
+//   frameRate(30);
 
-  canvas.parent("canvas");
-}
+//   canvas.parent("canvas");
+// }
 
 // #region Background
 
@@ -93,7 +93,7 @@ let starX = [];
 let starY = [];
 let starAlpha = [];
 
-const startRocketX = 1000; 
+const startRocketX = 1000;
 const startRocketY = 0;
 
 let rocketX = startRocketX;
